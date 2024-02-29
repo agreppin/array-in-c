@@ -1,0 +1,7 @@
+/array_test0
+/array_test1
+*.exe
+*.o
+*.obj
+*.pdb
+*.swp

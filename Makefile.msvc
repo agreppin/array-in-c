@@ -1,0 +1,41 @@
+CFLAGS	= /nologo /W3 /O2 /Zi /MT
+LDFLAGS	= /nologo
+
+OBJDIR	= .
+OUTDIR	= .
+SRCDIR	= .
+
+TARGETS	= $(OUTDIR)\array_test0.exe $(OUTDIR)\array_test1.exe
+
+all: $(TARGETS)
+
+clean:
+	if exist $(OBJDIR)\*.obj del /Q $(OBJDIR)\*.obj
+	if exist $(OUTDIR)\*.exe del /Q $(OUTDIR)\*.exe
+	if exist $(OUTDIR)\*.pdb del /Q $(OUTDIR)\*.pdb
+
+test: $(TARGETS)
+	@<<tests.cmd
+  @echo off
+  echo $(OUTDIR)\array_test0.exe
+  $(OUTDIR)\array_test0.exe
+  if %errorlevel% neq 0 echo ERROR: %errorlevel%
+  echo $(OUTDIR)\array_test1.exe
+  $(OUTDIR)\array_test1.exe
+  if %errorlevel% neq 0 echo ERROR: %errorlevel%
+<<
+
+$(OUTDIR)/array_test0.exe: $(OBJDIR)/array_test0.obj
+	link /OUT:$@ $** $(LDFLAGS)
+
+$(OUTDIR)/array_test1.exe: $(OBJDIR)/array_test1.obj $(OBJDIR)/array.obj
+	link /OUT:$@ $** $(LDFLAGS)
+
+$(OBJDIR)/array.obj: $(SRCDIR)/array.c $(SRCDIR)/array.h
+$(OBJDIR)/array_test0.obj: $(SRCDIR)/array_test0.c
+$(OBJDIR)/array_test1.obj: $(SRCDIR)/array_test1.c
+
+{$(OBJDIR)}.obj{$(OUTDIR)}.exe:
+	link /OUT:$@ $** $(LDFLAGS)
+{$(SRCDIR)}.c{$(OBJDIR)}.obj:
+	$(CC) /Fe:$@ $(CFLAGS) /c $<

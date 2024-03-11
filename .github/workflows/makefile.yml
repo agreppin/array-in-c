@@ -23,7 +23,7 @@ jobs:
           uname -a
           make test
 
-  macos-xhyve-bsd:  # arm64 not supported on xhyve
+  macos-xhyve:  # arm64 not supported on xhyve
     runs-on: macos-latest
     strategy:
       matrix:
@@ -110,5 +110,7 @@ jobs:
         with:
           arch: x64
       - name: Build and test on Windows x64
+        shell: cmd
         run: |
+          set VC
           nmake /nologo /f Makefile.msvc test

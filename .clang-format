@@ -1,0 +1,6 @@
+AlignConsecutiveAssignments: None
+AlignEscapedNewlines: Left
+AlwaysBreakAfterDefinitionReturnType: TopLevel
+AlwaysBreakTemplateDeclarations: Yes
+BreakBeforeBraces: Stroustrup
+IndentGotoLabels: false

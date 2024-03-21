@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 Alain Greppin
+//
+// SPDX-License-Identifier: BSD-3-Clause
+
 /* inspired by https://bytesbeneath.com/p/dynamic-arrays-in-c */
 #include "array.h"
 
@@ -9,8 +13,9 @@ array_init(size_t item_size, size_t capacity)
 
   if (h) {
     h->length = 0;
-    h->capacity = capacity;
-    h->item_size = item_size;
+    h->capacity = (unsigned int)capacity;
+    h->item_size = (unsigned int)item_size;
+    h->padding = 0xa2cade; /* magic */
     ++h;
   }
 
@@ -41,7 +46,7 @@ array_ensure_capacity(void *a, size_t minCapacity)
 
   size_t new_size = sizeof(*h) + new_capacity * h->item_size;
   h = (Array_Header *)realloc(h, new_size);
-  h->capacity = new_capacity;
+  h->capacity = (unsigned int)new_capacity;
   return h ? ++h : h;
 }
 #endif
